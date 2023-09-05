@@ -27,6 +27,7 @@ namespace azuretest.Controllers
 
             try
             {
+                Console.WriteLine("Attempting to make call to fake json");
                 // Make the API call to the external service
                 HttpResponseMessage response = await _httpClient.GetAsync("https://jsonplaceholder.typicode.com/todos/1");
 
@@ -39,6 +40,7 @@ namespace azuretest.Controllers
             catch (HttpRequestException e)
             {
                 _logger.LogError($"Request error: {e.Message}");
+                Console.WriteLine("Http get failed");
                 return BadRequest("Unable to fetch data from external API");
             }
 
