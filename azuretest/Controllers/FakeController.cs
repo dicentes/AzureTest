@@ -1,22 +1,49 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace azuretest.Controllers;
-
-[ApiController]
-[Route("[controller]")]
-public class FakeController : ControllerBase
+namespace azuretest.Controllers
 {
-    
-    private readonly ILogger<FakeController> _logger;
-
-    public FakeController(ILogger<FakeController> logger)
+    [ApiController]
+    [Route("[controller]")]
+    public class FakeController : ControllerBase
     {
-        _logger = logger;
-    }
+        private readonly ILogger<FakeController> _logger;
+        private readonly HttpClient _httpClient;
 
-    [HttpGet]
-    // make an API call to https://jsonplaceholder.typicode.com/todos/1
-    //put everything that it outputs, no matter what it outputs, into one string 
-    //return that string to the frontend 
-    
+        // Inject logger and HttpClient via constructor
+        public FakeController(ILogger<FakeController> logger, HttpClient httpClient)
+        {
+            _logger = logger;
+            _httpClient = httpClient;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            // Declare variable to hold the result from the external API
+            string result;
+
+            try
+            {
+                // Make the API call to the external service
+                HttpResponseMessage response = await _httpClient.GetAsync("https://jsonplaceholder.typicode.com/todos/1");
+
+                // Ensure the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Read the response as a string
+                result = await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException e)
+            {
+                _logger.LogError($"Request error: {e.Message}");
+                return BadRequest("Unable to fetch data from external API");
+            }
+
+            // Return the string to the frontend
+            return Ok(result);
+        }
+    }
 }
