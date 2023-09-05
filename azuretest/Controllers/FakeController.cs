@@ -1,51 +1,58 @@
-﻿using System.Net.Http;
+﻿using Microsoft.AspNetCore.Mvc;
+using Azure.Data.Tables;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace azuretest.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class FakeController : ControllerBase
     {
-        private readonly ILogger<FakeController> _logger;
-        private readonly HttpClient _httpClient;
+        private readonly TableClient UserGoalsTable;
 
-        // Inject logger and HttpClient via constructor
-        public FakeController(ILogger<FakeController> logger, HttpClient httpClient)
+        public FakeController()
         {
-            _logger = logger;
-            _httpClient = httpClient;
+            // Initialize TableClient
+            UserGoalsTable = new TableClient("DefaultEndpointsProtocol=https;AccountName=brocount;AccountKey=nzY3j2LKYZQiyLhFyaJ3K9QBHbceqyJto3dFL80bP9cBzdFmIOJubT04nZcF4EqokE7luJB8EKNMACDbuzKyDw==;TableEndpoint=https://brocount.table.cosmos.azure.com:443/", "UserGoals");
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult GetAllUserGoals()
         {
-            // Declare variable to hold the result from the external API
-            string result;
-
             try
             {
-                Console.WriteLine("Attempting to make call to fake json");
-                // Make the API call to the external service
-                HttpResponseMessage response = await _httpClient.GetAsync("https://jsonplaceholder.typicode.com/todos/1");
+                // Fetch all data from UserGoals table
+                var userGoals = UserGoalsTable.Query<UserGoal>();
 
-                // Ensure the request was successful
-                response.EnsureSuccessStatusCode();
+                // Collect into a list (consider pagination for large tables)
+                List<UserGoal> result = new List<UserGoal>();
+                foreach (UserGoal userGoal in userGoals)
+                {
+                    result.Add(userGoal);
+                }
 
-                // Read the response as a string
-                result = await response.Content.ReadAsStringAsync();
+                return Ok(result);
             }
-            catch (HttpRequestException e)
+            catch (System.Exception ex)
             {
-                _logger.LogError($"Request error: {e.Message}");
-                Console.WriteLine("Http get failed");
-                return BadRequest("Unable to fetch data from external API");
+                return StatusCode(500, $"Internal Server Error: {ex}");
             }
-
-            // Return the string to the frontend
-            return Ok(result);
         }
     }
+
+    public class UserGoal : ITableEntity
+{
+    public string? PartitionKey { get; set; }
+    public string? RowKey { get; set; }
+    public DateTimeOffset? Timestamp { get; set; }
+    public Azure.ETag ETag { get; set; }
+    public string? GoalTitle { get; set; }
+    public string? GoalDesc { get; set; }
+    public string? SubmittedBy { get; set; }
+    public DateTimeOffset? TargetDate { get; set; }
+    public bool? Completed { get; set; } 
+}
+
 }
