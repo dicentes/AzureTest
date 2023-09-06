@@ -2,11 +2,17 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const { env } = require('process');
 
 const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}` :
-  env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'http://localhost:3370';
+  env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'http://localhost:39551';
 
 const context = [
   "/weatherforecast",
-  "/api/fake"
+  "/usergoal",
+  "/api/login/login", //FINAL CHANGE
+  "/api/registration/register", //ADDING ROUTE FOR REGISTERING NEW USERS,
+  "/api/addgoal/addgoal",
+  "/api/usergoal",
+  "/api/goal/",
+  "/api/editgoal/edit"
 ];
 
 const onError = (err, req, resp, target) => {
