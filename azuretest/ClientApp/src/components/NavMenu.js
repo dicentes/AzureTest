@@ -1,50 +1,54 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
+import { useAuth } from './Login';
 
-export class NavMenu extends Component {
-  static displayName = NavMenu.name;
+export const NavMenu = () => {
+  const { authenticated, username } = useAuth();
+  const [collapsed, setCollapsed] = React.useState(true);
 
-  constructor (props) {
-    super(props);
+  const toggleNavbar = () => {
+    setCollapsed(!collapsed);
+  };
 
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true
-    };
-  }
-
-  toggleNavbar () {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  }
-
-  render() {
-    return (
-      <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
-          <NavbarBrand tag={Link} to="/">azuretest</NavbarBrand>
-          <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-          <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
-            <ul className="navbar-nav flex-grow">
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
-              </NavItem>
-              <NavItem>
-              <NavLink tag={Link} className="text-dark" to="/fake">Fetch Fake</NavLink>
-              </NavItem>
-            </ul>
-          </Collapse>
-        </Navbar>
-      </header>
-    );
-  }
-}
+  return (
+    <header>
+      <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3 my-custom-navbar-color" container light>
+        <NavbarBrand tag={Link} to="/">Brocountability</NavbarBrand>
+        {authenticated && <div className="ml-auto mr-2 text-white">Hi, {username}!</div>}
+        <NavbarToggler onClick={toggleNavbar} className="mr-2" />
+        <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
+          <ul className="navbar-nav flex-grow">
+            <NavItem>
+              <NavLink tag={Link} className="btn btn-primary" to="/dashboard">Dashboard</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={Link} className="btn btn-primary" to="/">Home</NavLink>
+            </NavItem>
+            {!authenticated ? (
+              <>
+                <NavItem>
+                  <NavLink tag={Link} className="btn btn-primary" to="/login">Login</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} className="btn btn-primary" to="/register">Register</NavLink>
+                </NavItem>
+              </>
+            ) : null}
+            {authenticated ? (
+              <>
+                <NavItem>
+                  <NavLink tag={Link} className="btn btn-primary" to="/logout">Logout</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} className="btn btn-primary" to="/addgoals">Add Goal</NavLink>
+                </NavItem>
+              </>
+            ) : null}
+          </ul>
+        </Collapse>
+      </Navbar>
+    </header>
+  );
+};

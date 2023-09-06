@@ -16,3 +16,8 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+/* Custom CSS class to change the navbar color */
+.my-custom-navbar-color {
+  background-color: #007bff; /* The color used in bg-primary */
+  color: #ffffff; /* The text color used in navbar-dark */
+}
