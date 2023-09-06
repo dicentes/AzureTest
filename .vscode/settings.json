@@ -1,4 +1,5 @@
 {
     "appService.preDeployTask": "publish-release",
-    "appService.deploySubpath": "azuretest/bin/Release/net7.0/publish"
+    "appService.deploySubpath": "azuretest\\bin\\Release\\net7.0\\publish",
+    "appService.defaultWebAppToDeploy": "/subscriptions/7c4fc584-4869-48a3-80ee-bfd0b89acea9/resourceGroups/rg-accountability/providers/Microsoft.Web/sites/azuretestttty"
 }
