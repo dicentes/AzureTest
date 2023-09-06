@@ -184,12 +184,7 @@ function GoalDetail() {
           <p>Submitted by: {goal?.submittedBy}</p>
           <p>Target Date: {formatDate(goal?.targetDate)}</p>
           <p>Completed: {goal?.completed ? 'Yes' : 'No'}</p>
-          
-          {/* Checkbox to toggle the completion status */}
-          <label>
-            Completed
-            <input type="checkbox" checked={goal?.completed} onChange={toggleCompleted} />
-          </label>
+        
           
           {/* Buttons for editing and deleting, only show if authenticated and username matches */}
           {authenticated && username === goal?.submittedBy && !deleting && (
