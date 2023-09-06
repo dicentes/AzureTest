@@ -1,7 +1,13 @@
 import { Counter } from "./components/Counter";
-import { FetchData } from "./components/FetchData";
-import { FetchFake } from "./components/FetchFake";
 import { Home } from "./components/Home";
+import FetchGoals from "./components/FetchGoals"; // Use default import for FetchGoals
+import { Login } from "./components/Login"; // Use named import for Login
+import Logout from './components/Logout';
+import Register from "./components/Register";
+import AddGoals from "./components/AddGoals";
+import GoalDetail from "./components/GoalDetail";
+
+
 
 const AppRoutes = [
   {
@@ -13,12 +19,28 @@ const AppRoutes = [
     element: <Counter />
   },
   {
-    path: '/fetch-data',
-    element: <FetchData />
+    path: '/login',
+    element: <Login />
   },
   {
-    path: '/fake',
-    element: <FetchFake />
+    path: '/dashboard',
+    element: <FetchGoals />
+  },
+  {
+    path: '/logout',
+    element: <Logout/>
+  },
+  {
+    path: '/register',
+    element: <Register/>
+  },
+  {
+    path: '/addgoals',
+    element: <AddGoals/>
+  },
+  {
+    path: '/goal/:goalId',  // Dynamic route for goals
+    element: <GoalDetail />
   }
 ];
 
