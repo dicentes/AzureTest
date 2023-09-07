@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { AuthContext, useAuth } from './Login';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { GoalsContext } from './FetchGoals';
+// Import your triggerUpdate function from the context
+import { useUpdate } from './FetchGoals';  // Change this to the actual path of your context file
+
 
 function AddGoalForm() {
   const [goalTitle, setGoalTitle] = useState('');
@@ -13,7 +18,7 @@ function AddGoalForm() {
   const isValid = () => {
     return goalTitle && goalDesc && targetDate;
   };
-
+  const { triggerUpdate } = useContext(GoalsContext); 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -35,6 +40,8 @@ function AddGoalForm() {
       });
 
       if (response.ok) {
+        console.log("Since goal was added successfully, I've updated state. ");
+        triggerUpdate(); 
         navigate("/dashboard");
       } else {
         alert('Failed to add goal');

@@ -15,6 +15,8 @@ const useGoalsChanged = () => {
     setGoalsChanged(true);
   };
 
+
+
   const markGoalsUpToDate = () => {
     console.log("Goals are up-to-date. No need for a new database query.");
     setGoalsChanged(false);
@@ -29,6 +31,10 @@ export const GoalsProvider = ({ children }) => {
   const { goalsChanged, markGoalsChanged, markGoalsUpToDate } = useGoalsChanged();
   const location = useLocation();  // Add this line
 
+
+  const triggerUpdate = () => {
+    markGoalsChanged();
+  };
   // Define populateUserGoals here so it has access to setUserGoals
   const populateUserGoals = async () => {
     try {
@@ -59,7 +65,7 @@ export const GoalsProvider = ({ children }) => {
   }, [goalsChanged, location.pathname]);
 
   return (
-    <GoalsContext.Provider value={{ userGoals, markGoalsChanged }}>
+    <GoalsContext.Provider value={{ userGoals, markGoalsChanged, triggerUpdate }}>
       {children}
     </GoalsContext.Provider>
   );
