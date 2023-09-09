@@ -12,7 +12,6 @@ const Register = () => {
     event.preventDefault();
     setIsLoading(true); // Start loading
     setError(null); // Reset any previous errors
-    
 
     try {
       const response = await fetch('/api/registration/register', {
@@ -33,8 +32,12 @@ const Register = () => {
         navigate('/login'); 
       } else {
         console.error(data.message);
-        console.log(data.message);
-        setError('Registration failed, try again later'); // Set error state
+        // Check for username already in use message
+        if (data.message === "Username & password combination unavailable. Try a different combination.") {
+          setError(data.message); // Set error state with server message
+        } else {
+          setError('Registration failed, try again later'); // Set generic error message
+        }
       }
     } catch (error) {
       console.error('An error occurred:', error);

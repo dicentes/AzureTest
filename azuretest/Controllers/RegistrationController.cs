@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Azure.Data.Tables;
 using System;
 using System.Threading.Tasks;
+using System.Linq;  // Required for LINQ query
 
 namespace azuretest.Controllers
 {
@@ -23,6 +24,18 @@ namespace azuretest.Controllers
         {
             Console.WriteLine("User has made a POST request for registration.");
 
+            // Query the table to find if the username already exists
+            var query = UserCredentialsTable.Query<TableEntity>(filter: $"Username eq '{model.Username}'");
+            foreach (var entity in query)
+            {
+                if (entity != null)
+                {
+                    // Duplicate username found, return BadRequest
+                    return BadRequest(new { message = "Username & password combination unavailable. Try a different combination." });
+                }
+            }
+
+            // If this point is reached, username is unique, proceed with registration
             // Create a new entity object that aligns with Cosmos DB Table schema
             var newUser = new TableEntity("UserCredentialsPartition", Guid.NewGuid().ToString())
             {
