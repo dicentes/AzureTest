@@ -116,13 +116,13 @@ export const FetchGoals = () => {
   } else if (authenticated) {
     contents = loading ? <p><em>Loading...</em></p> : renderUserGoalsAsBubbles(userGoals);
   } else {
-    contents = <p>You need to be logged in to view your goals. <a href="/login">Log in</a></p>;
+    contents = <p>You need to be logged in to view goals. <a href="/login">Log in</a></p>;
   }
 
   return (
     <div>
       <h1 id="tableLabel">User Goals</h1>
-      <p>This component demonstrates fetching user goals from the server.</p>
+      <p>Login to see what goals others have posted and post your own.</p>
       {contents}
     </div>
   );

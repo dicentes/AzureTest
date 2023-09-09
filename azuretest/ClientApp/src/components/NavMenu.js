@@ -21,10 +21,11 @@ export const NavMenu = () => {
         <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
           <ul className="navbar-nav flex-grow">
             <NavItem>
-              <NavLink tag={Link} className="btn btn-primary" to="/dashboard">Dashboard</NavLink>
+            <NavLink tag={Link} className="btn btn-primary" to="/">Home</NavLink>
+              
             </NavItem>
             <NavItem>
-              <NavLink tag={Link} className="btn btn-primary" to="/">Home</NavLink>
+            <NavLink tag={Link} className="btn btn-primary" to="/dashboard">Dashboard</NavLink>
             </NavItem>
             {!authenticated ? (
               <>
@@ -39,10 +40,11 @@ export const NavMenu = () => {
             {authenticated ? (
               <>
                 <NavItem>
-                  <NavLink tag={Link} className="btn btn-primary" to="/logout">Logout</NavLink>
+                  
+                  <NavLink tag={Link} className="btn btn-primary" to="/addgoals">Add Goal</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="btn btn-primary" to="/addgoals">Add Goal</NavLink>
+                <NavLink tag={Link} className="btn btn-primary" to="/logout">Logout</NavLink>
                 </NavItem>
               </>
             ) : null}
