@@ -3,17 +3,26 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from './Login';
 import { GoalsContext } from './FetchGoals'; // Import the GoalsContext
 
-const EditGoalModal = ({ isOpen, onClose, editGoal }) => {
-  const [editedGoalTitle, setEditedGoalTitle] = useState("");
-  const [editedGoalDesc, setEditedGoalDesc] = useState("");
+const EditGoalModal = ({ isOpen, onClose, editGoal, existingTitle, existingDesc }) => {
+  const [editedGoalTitle, setEditedGoalTitle] = useState(existingTitle);
+  const [editedGoalDesc, setEditedGoalDesc] = useState(existingDesc);
   const [editedGoalCompleted, setEditedGoalCompleted] = useState(false);
+
+  // Function to check if the title and description are not blank
+  const isValid = () => {
+    return editedGoalTitle.trim() && editedGoalDesc.trim();
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    editGoal(editedGoalTitle, editedGoalDesc, editedGoalCompleted);
-    onClose();
+    if (isValid()) {
+      editGoal(editedGoalTitle.trim(), editedGoalDesc.trim(), editedGoalCompleted);
+      onClose();
+    } else {
+      alert("Title and Description cannot be blank.");
+    }
   };
-  
+
   return isOpen ? (
     <div className="modal">
       <div className="modal-content">
@@ -21,13 +30,11 @@ const EditGoalModal = ({ isOpen, onClose, editGoal }) => {
           <p>Target Date cannot be modified. You set your goal - stick to it!</p>
           <input
             type="text"
-            placeholder="New Goal Title"
             value={editedGoalTitle}
             onChange={(e) => setEditedGoalTitle(e.target.value)}
           />
           <input
             type="text"
-            placeholder="New Goal Description"
             value={editedGoalDesc}
             onChange={(e) => setEditedGoalDesc(e.target.value)}
           />
@@ -46,11 +53,13 @@ const EditGoalModal = ({ isOpen, onClose, editGoal }) => {
 function GoalDetail() {
   const { goalId } = useParams();
   const { authenticated, username } = useContext(AuthContext);
-  const { markGoalsChanged } = useContext(GoalsContext); // Use markGoalsChanged
+  const { markGoalsChanged } = useContext(GoalsContext);
   const [goal, setGoal] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);
+
+  // ... (existing fetch, delete, and toggle functions)
 
   const toggleCompleted = async () => {
     try {
@@ -157,7 +166,13 @@ function GoalDetail() {
               <button onClick={deleteGoal}>Delete this Goal</button>
             </>
           )}
-          <EditGoalModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} editGoal={editGoal} />
+          <EditGoalModal 
+            isOpen={isModalOpen} 
+            onClose={() => setModalOpen(false)} 
+            editGoal={editGoal} 
+            existingTitle={goal.goalTitle}  // Pass existing title
+            existingDesc={goal.goalDesc}    // Pass existing description
+          />
         </div>
       )}
     </div>
