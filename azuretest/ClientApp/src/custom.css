@@ -58,7 +58,7 @@ html, body {
   padding: 0;
 }
 
-/* image styling designed to avoid cropping image */ 
+/* this styling is designed specifically for the splash page image. */ 
 .frontpageimage {
   max-height: 50%;  /* Maximum height to 100% of parent */
   max-width: 20%;  /* Maximum width to 100% of parent */
