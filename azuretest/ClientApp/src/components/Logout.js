@@ -26,7 +26,7 @@ const Logout = () => {
   
   return (
     <div>
-      <p>This is a test of Authentication.</p>
+      <p> Quitting so soon? </p>
       {contents}
     </div>
   );
