@@ -64,12 +64,21 @@ html, body {
 
 /* this styling is designed specifically for the splash page image. */ 
 .frontpageimage {
-  max-height: 20%;  /* Maximum height to 100% of parent */
-  max-width: 50%;  /* Maximum width to 100% of parent */
-  object-fit: contain;
-  align-items: center; /* The image will scale down to fit within its box while maintaining its aspect ratio */
+  max-height: 30%;  /* Maximum height to 100% of parent */
+  max-width: 30%;  /* Maximum width to 100% of parent */
+  /* object-fit: scale-down; */ 
+  align-items: center;
+  display: none; 
 }
 
+/* Initially set the element to be not displayed */
+
+/* When the screen width is greater than 300px, display the element */
+@media (min-width: 301px) {
+  .frontpageimage{
+    display: block;  /* Or whatever your preferred display value is */
+  }
+}
 
 /* Existing styles for the main content */
 .main-content {
