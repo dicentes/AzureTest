@@ -33,9 +33,13 @@ code {
 .textbox {
   padding: 20px;
   margin: 20px;
-  text-align: center;
 }
 
+/* remove when not testing 
+* {
+  border: 1px solid red;
+}
+*/ 
 /* Styles for the actual modal content */
 .modal-content {
   background-color: #fff;  /* White background */
@@ -60,8 +64,8 @@ html, body {
 
 /* this styling is designed specifically for the splash page image. */ 
 .frontpageimage {
-  max-height: 50%;  /* Maximum height to 100% of parent */
-  max-width: 20%;  /* Maximum width to 100% of parent */
+  max-height: 20%;  /* Maximum height to 100% of parent */
+  max-width: 50%;  /* Maximum width to 100% of parent */
   object-fit: contain;
   align-items: center; /* The image will scale down to fit within its box while maintaining its aspect ratio */
 }
