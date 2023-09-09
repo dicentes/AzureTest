@@ -29,6 +29,12 @@ code {
   align-items: center;
   z-index: 1;
 }
+/* creating a custom css class to handle adding some margin */
+.textbox {
+  padding: 20px;
+  margin: 20px;
+  text-align: center;
+}
 
 /* Styles for the actual modal content */
 .modal-content {
@@ -45,16 +51,39 @@ code {
   cursor: pointer;
 }
 
+/* Ensure html and body cover full height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* image styling designed to avoid cropping image */ 
+.frontpageimage {
+  max-height: 50%;  /* Maximum height to 100% of parent */
+  max-width: 20%;  /* Maximum width to 100% of parent */
+  object-fit: contain;
+  align-items: center; /* The image will scale down to fit within its box while maintaining its aspect ratio */
+}
+
+
+/* Existing styles for the main content */
 .main-content {
   background-image: linear-gradient(to right, #add8e6, #87cefa);  /* Light blue to deeper blue */
   min-height: 100vh;  /* Ensure it takes up full viewport height */
+   /* Add this to ensure full height height: 100%;  */
+  height: 100%; 
+  /*TEST */ 
+  width: 100%;
   margin: 0px;  /* Remove default margins */
   padding: 0px;  /* Remove default padding */
+  
 }
 
+/*I think this is where the weird white space is coming from. */ 
 .content-wrapper {
-  padding: 20px;
-  margin: 20px;
+  padding: 0px;
+  margin: 0px;
 }
 
 /* Equivalent of goalBubbleStyle */
