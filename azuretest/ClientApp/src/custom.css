@@ -74,7 +74,7 @@ html, body {
 /* Initially set the element to be not displayed */
 
 /* When the screen width is greater than 300px, display the element */
-@media (min-width: 301px) {
+@media (min-width: 805px) {
   .frontpageimage{
     display: block;  /* Or whatever your preferred display value is */
   }
@@ -90,13 +90,20 @@ html, body {
   width: 100%;
   margin: 0px;  /* Remove default margins */
   padding: 0px;  /* Remove default padding */
+  overflow: auto; /* attempting to deal with the spillover behavior */
   
+}
+/* Make sure the root div takes up the full height of the body */
+#root {
+  height: 100%;
 }
 
 /*I think this is where the weird white space is coming from. */ 
 .content-wrapper {
   padding: 0px;
   margin: 0px;
+  height: 100%;
+  width: 100%;
 }
 
 /* Equivalent of goalBubbleStyle */

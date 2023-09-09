@@ -1,26 +1,57 @@
-// Import section remains the same
-import React, { Component } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { GoalsContext } from './FetchGoals';  // Import GoalsContext
 import discobolus from './noun-discobolus-1310560.svg';
 
-export class Home extends Component {
-  static displayName = Home.name;
+export const Home = () => {
+  const { userGoals } = useContext(GoalsContext);  // Destructure userGoals from GoalsContext
+  const [completedGoals, setCompletedGoals] = useState([]);
 
-  render() {
+  // Function to convert ISO 8601 date to MM/DD/YYYY format
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  };
+
+  // Use useEffect to filter only completed goals
+  useEffect(() => {
+    const filteredGoals = userGoals.filter(goal => goal.completed);
+    setCompletedGoals(filteredGoals);
+  }, [userGoals]);
+
+  // Function to render completed goals
+  const renderCompletedGoals = (goals) => {
     return (
-      // flex-grow-1 makes this div take available space but not more
-       
-      <div className="d-flex bd-highlight justify-content-evenly">  
-        <div className="textbox fs-1">
-          <p>Welcome to Brocountability.</p>
-          <p>Setting goals for yourself is easy - <i>completing </i>them is hard. </p>
-          <p> Brocountability is here to fix that.</p>
-          <p>Register now to make an account and join other bros looking to improve themselves.</p>
-        </div>
-
-        {/* Set both width and height to 100% */}
-        <img src={discobolus} alt="test icon" className="img-fluid frontpageimage" />
+      <div className="goal-container">
+        {goals.map((userGoal) => (
+          <div key={userGoal.rowKey} className="goal-bubble">
+            <h3>Goal Title: {userGoal.goalTitle}</h3>
+            <p>Description: {userGoal.goalDesc}</p>
+            <p>Submitted By: {userGoal.submittedBy}</p>
+            <p>Completed By: {formatDate(userGoal.targetDate)}</p>
+          </div>
+        ))}
       </div>
-       
     );
-  }
-}
+  };
+
+  return (
+    <div className="d-flex flex-column flex-grow-1">
+      <div className="d-flex justify-content-between textbox">
+        <div>
+          <p>Welcome to Brocountability.</p>
+          <p>Setting goals for yourself can be easy - <i>completing </i> them is hard. Brocountability is here to fix that.</p>
+          <p>Register now to make an account and join other bros looking to improve themselves.</p>
+          <div>
+        <h2>Look at what others have accomplished...</h2>
+        {renderCompletedGoals(completedGoals)}
+      </div>
+        </div>
+        <img src={discobolus} alt="test icon" width="500" height="600" className="img-fluid frontpageimage" style={{maxWidth: '100%'}} />
+      </div>
+    
+    </div>
+  );
+}  
