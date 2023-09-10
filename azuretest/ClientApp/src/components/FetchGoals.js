@@ -51,18 +51,17 @@ export const GoalsProvider = ({ children }) => {
     }
   };
 
-  // This useEffect checks if the goalsChanged state is true or if userGoals.length is zero.
-  // If either is true, it will call populateUserGoals() to fetch fresh data.
+// This useEffect checks if the goalsChanged state is true or if userGoals.length is zero.
+// If either is true, it will call populateUserGoals() to fetch fresh data.
   useEffect(() => {
-    if (location.pathname === '/dashboard') {
-      console.log(`Current goalsChanged state: ${goalsChanged}`);
-      console.log(`Current userGoals: ${JSON.stringify(userGoals)}`);
-      if (goalsChanged || userGoals.length === 0) {
-        console.log("Since the goals have been changed, or there are no goals, making a fresh database query.");
-        populateUserGoals();
-      }
+    console.log(`Current goalsChanged state: ${goalsChanged}`);
+    console.log(`Current userGoals: ${JSON.stringify(userGoals)}`);
+    // This checks if we are at the dashboard and either the goals have changed or we don't have any yet
+    if ((location.pathname === '/dashboard' && goalsChanged) || userGoals.length === 0) {
+      console.log("Since the goals have been changed, or there are no goals, making a fresh database query.");
+      populateUserGoals();
     }
-  }, [goalsChanged, location.pathname]);
+  }, [goalsChanged, location.pathname, userGoals.length]); 
 
   return (
     <GoalsContext.Provider value={{ userGoals, markGoalsChanged, triggerUpdate }}>
