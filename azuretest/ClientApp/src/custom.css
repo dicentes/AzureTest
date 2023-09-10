@@ -72,13 +72,9 @@ html, body {
 }
 
 .footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+  text-align: center;
   background-color: #333;
   color: white;
-  text-align: center;
-  padding: 10px;
 }
 /* Initially set the element to be not displayed */
 
@@ -86,6 +82,9 @@ html, body {
 @media (min-width: 805px) {
   .frontpageimage{
     display: block;  /* Or whatever your preferred display value is */
+  }
+  .footer{
+    display: block
   }
 }
 
