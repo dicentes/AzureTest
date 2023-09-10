@@ -5,7 +5,7 @@ import { Layout } from './components/Layout';
 import './custom.css';
 import { AuthProvider, Login } from './components/Login'; // Correct the import path
 import { GoalsProvider } from './components/FetchGoals'; // Import GoalsProvider
-import Footer from './components/Footer';
+
 
 export default class App extends Component {
   static displayName = App.name;
@@ -25,7 +25,6 @@ export default class App extends Component {
               })}
               
             </Routes>
-            <Footer />  
           </Layout>
         </GoalsProvider>
       </AuthProvider>
