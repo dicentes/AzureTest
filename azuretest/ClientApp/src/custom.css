@@ -71,6 +71,15 @@ html, body {
   display: none; 
 }
 
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
 /* Initially set the element to be not displayed */
 
 /* When the screen width is greater than 300px, display the element */
@@ -90,7 +99,8 @@ html, body {
   width: 100%;
   margin: 0px;  /* Remove default margins */
   padding: 0px;  /* Remove default padding */
-  overflow: auto; /* attempting to deal with the spillover behavior */
+  overflow: auto;
+  flex: 1 0 auto; /* attempting to deal with the spillover behavior */
   
 }
 /* Make sure the root div takes up the full height of the body */

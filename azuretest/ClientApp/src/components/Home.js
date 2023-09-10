@@ -47,6 +47,7 @@ export const Home = () => {
           <div>
         <h2>Look at what others have accomplished...</h2>
         {renderCompletedGoals(completedGoals)}
+        <h2> Register now to add your own goals. </h2>
       </div>
         </div>
         <img src={discobolus} alt="test icon" width="500" height="600" className="img-fluid frontpageimage" style={{maxWidth: '100%'}} />
